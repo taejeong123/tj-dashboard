@@ -1,5 +1,6 @@
 import StyledProvider from "@/lib/StyledProvider";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,6 +16,8 @@ const RootLayout = ({
   return (
     <>
       <Analytics />
+      <SpeedInsights />
+
       <html lang="ko">
         <body>
           <StyledProvider>{children}</StyledProvider>
