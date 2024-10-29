@@ -1,4 +1,5 @@
 import StyledProvider from "@/lib/StyledProvider";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,11 +13,14 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="ko">
-      <body>
-        <StyledProvider>{children}</StyledProvider>
-      </body>
-    </html>
+    <>
+      <Analytics />
+      <html lang="ko">
+        <body>
+          <StyledProvider>{children}</StyledProvider>
+        </body>
+      </html>
+    </>
   );
 };
 
