@@ -15,12 +15,12 @@ const RootLayout = ({
 }>) => {
   return (
     <>
-      <Analytics />
-      <SpeedInsights />
-
       <html lang="ko">
         <body>
           <StyledProvider>{children}</StyledProvider>
+
+          <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </>
