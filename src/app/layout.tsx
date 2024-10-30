@@ -17,7 +17,13 @@ const RootLayout = ({
     <>
       <html lang="ko">
         <body>
-          <StyledProvider>{children}</StyledProvider>
+          <StyledProvider>
+            <header>header</header>
+
+            {children}
+
+            <footer>footer</footer>
+          </StyledProvider>
 
           <Analytics />
           <SpeedInsights />
