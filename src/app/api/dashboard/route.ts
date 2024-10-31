@@ -1,58 +1,70 @@
+import { responseHandler } from "@/common";
+import { CreateDashboardItemRequest } from "@/types";
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
 
-export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req, res, "겟");
-  // 데이터 행 생성
-  // await prisma.dashboard.create({
-  //   data: {
-  //     title: "title1",
-  //     context: "lorem ipsum",
-  //   },
-  // });
+export const GET = async (req: Request) => {
+  try {
+    // 데이터 행 생성
+    // await prisma.dashboard.create({
+    //   data: {
+    //     title: "title1",
+    //     context: "lorem ipsum",
+    //   },
+    // });
 
-  // 데이터 행 수정
-  // await prisma.dashboard.update({
-  //   where: {
-  //     id: 2,
-  //   },
-  //   data: {
-  //     title: "title2",
-  //     context: "context context",
-  //   },
-  // });
+    // 데이터 행 수정
+    // await prisma.dashboard.update({
+    //   where: {
+    //     id: 2,
+    //   },
+    //   data: {
+    //     title: "title2",
+    //     context: "context context",
+    //   },
+    // });
 
-  const data = await prisma.dashboard.findMany();
-  // console.log("data", data);
+    const url = new URL(req.url);
+    const limit = Number(url.searchParams.get("limit"));
 
-  // const data2 = await prisma.dashboard.findMany({
-  //   where: {
-  //     id: 1,
-  //   },
-  //   select: {
-  //     id: true,
-  //     title: true,
-  //   },
-  // });
-  // console.log("data2", data2);
+    const data = await prisma.dashboard.findMany({
+      // where: {
+      //   id: 1,
+      // },
+      // select: {
+      //   id: true,
+      //   title: true,
+      // },
+      ...(limit && { take: limit }),
+    });
 
-  return Response.json({
-    data,
-  });
+    return responseHandler({ status: 200, data });
+  } catch (error) {
+    return responseHandler({ status: 500, error });
+  }
 };
 
-export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(res, "포스트");
+export const POST = async (req: Request) => {
+  try {
+    const data: CreateDashboardItemRequest = await req.json();
 
-  console.log(req.body);
+    console.log("POST", data);
 
-  return Response.json("post");
+    return responseHandler({ status: 201, data });
+  } catch (error) {
+    return responseHandler({ status: 500, error });
+  }
 };
 
-export const DELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req, res, "딜리트");
+export const DELETE = async (req: Request) => {
+  try {
+    console.log("DELETE", req.json());
 
-  return Response.json("delete");
+    // do something
+
+    return responseHandler({ status: 200 });
+  } catch (error) {
+    return responseHandler({ status: 500, error });
+  }
 };
